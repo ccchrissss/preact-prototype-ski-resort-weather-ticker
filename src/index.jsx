@@ -1,13 +1,23 @@
 import { render } from 'preact';
+// import { Card } from 'daisyui';
+
+// ********** how do i add components from Daisyui when using jsx?
 
 // import preactLogo from './assets/preact.svg';
 import { Header } from './components/Header'
+import { DeviceInfo } from './components/DeviceInfo'
 import './style.css';
+
+let deviceSettings = {
+	deviceID: 'daWhiteStuff001',
+}
 
 export function App() {
 	return (
     <>
 			<Header />
+			<DeviceInfo {...deviceSettings} />
+			{/* <Card /> */}
     </>
   );
 }
@@ -36,13 +46,13 @@ export function App() {
 		// </div>
 
 
-function Resource(props) {
-	return (
-		<a href={props.href} target="_blank" class="resource">
-			<h2>{props.title}</h2>
-			<p>{props.description}</p>
-		</a>
-	);
-}
+// function Resource(props) {
+// 	return (
+// 		<a href={props.href} target="_blank" class="resource">
+// 			<h2>{props.title}</h2>
+// 			<p>{props.description}</p>
+// 		</a>
+// 	);
+// }
 
 render(<App />, document.getElementById('app'));

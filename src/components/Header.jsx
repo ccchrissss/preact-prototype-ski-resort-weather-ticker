@@ -6,9 +6,9 @@ export function Header() {
     // <Navbar />
     <div class="navbar shadow-md z-10 bg-red-300">
       <div class="navbar-start">
-        <a href="/" class="text-xl hover:text-gray-200 pl-3 pr-2">Preact Testing</a>
+        <a href="/" class="text-xl hover:text-gray-200 pl-3 pr-2">Ski Resort Testing</a>
         <div class="hidden md:flex">
-          <a href="https://www.instagram.com/lantz.darling" class="fa fa-instagram px-2 link link-hover"></a>
+          {/* <a href="https://www.instagram.com/lantz.darling" class="fa fa-instagram px-2 link link-hover"></a> */}
         </div>
       </div>
       <div class="navbar-end">
