@@ -134,16 +134,212 @@ export function DeviceInfo(props) {
 
   return (
     <>
-      <section class="m-4">
+      <section class="m-4 mt-8">
         <div class="mb-8">
           <h4 class="font-bold">Your Device</h4>
-          <h5>{props.deviceID}</h5>
+          <div className="collapse collapse-arrow bg-base-100 border border-base-300">
+            <input id="collapse-1-toggle" type="checkbox" className="peer" />
+            <label
+              htmlFor="collapse-1-toggle"
+              className="fixed inset-0 hidden peer-checked:block"
+            ></label>
+            <div className="collapse-title font-semibold">Name your gizmo</div>
+            <div className="collapse-content text-sm z-1">*My_custom_name</div>
+          </div>
+          <div className="collapse collapse-arrow bg-base-100 border border-base-300">
+            <input id="collapse-1-toggle" type="checkbox" className="peer" />
+            <label
+              htmlFor="collapse-1-toggle"
+              className="fixed inset-0 hidden peer-checked:block"
+            ></label>
+            <div className="collapse-title font-semibold">
+              The Boring ID I assigned to your gizmo
+            </div>
+            <div className="collapse-content text-sm z-1">
+              ID: {props.deviceID}
+            </div>
+          </div>
         </div>
 
-        <h4>Choose Your Ski Resorts</h4>
-        <SkiResortsPerState resortObj={colorado} />
-        <SkiResortsPerState resortObj={california} />
-        <SkiResortsPerState resortObj={pa} />
+        <div class="mb-8">
+          <h4 class="font-bold">Choose Your Ski Resorts</h4>
+          <SkiResortsPerState resortObj={colorado} />
+          <SkiResortsPerState resortObj={california} />
+          <SkiResortsPerState resortObj={pa} />
+        </div>
+
+        <div class="mb-8">
+          <h4 class="font-bold">Adjust Your Powder Tracker Settings</h4>
+          {/* <input type="range" min={0} max="100" value="40" className="range m-4" /> */}
+          <h5>Alert Threshold - Snowfall accumulation in the past 24 hrs</h5>
+          <div className="w-full max-w-xs m-4">
+            <input
+              type="range"
+              min={0}
+              max="100"
+              value="0"
+              className="range"
+              step="11.11"
+            />
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+            </div>
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>1"</span>
+              <span>2"</span>
+              <span>3"</span>
+              <span>4"</span>
+              <span>5"</span>
+              <span>6"</span>
+              <span>1'</span>
+              <span>1.5'</span>
+              <span>2' </span>
+              <span>🤿</span>
+            </div>
+          </div>
+
+          <h5>Alert Threshold - Forecasted snowfall accumulation in the next 24 hrs</h5>
+          <div className="w-full max-w-xs m-4">
+            <input
+              type="range"
+              min={0}
+              max="100"
+              value="0"
+              className="range"
+              step="11.11"
+            />
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+            </div>
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>1"</span>
+              <span>2"</span>
+              <span>3"</span>
+              <span>4"</span>
+              <span>5"</span>
+              <span>6"</span>
+              <span>1'</span>
+              <span>1.5'</span>
+              <span>2' </span>
+              <span>🤿</span>
+            </div>
+          </div>
+
+          <h5>Want an additional forecast alert?</h5>
+          <div className="m-4">
+            <label className="mr-2">No</label>
+            <input type="checkbox" className="toggle" />
+            <label className="ml-2">Yes!</label>
+            {/* add state logic here to only show below when toggle is on */}
+          </div>
+
+          <h5>Up to how many days in the future?</h5>
+          <div className="w-full max-w-xs m-4">
+            <input
+              type="radio"
+              id="daysOutChoice2"
+              name="daysOut"
+              className="radio mr-2"
+              defaultChecked
+            />
+            <label for="daysOutChoice2">2</label>
+
+            <input
+              type="radio"
+              id="daysOutChoice3"
+              name="daysOut"
+              className="radio mx-2"
+            />
+            <label for="daysOutChoice3">3</label>
+
+            <input
+              type="radio"
+              id="daysOutChoice4"
+              name="daysOut"
+              className="radio mx-2"
+            />
+            <label for="daysOutChoice4">4</label>
+
+            <input
+              type="radio"
+              id="daysOutChoice5"
+              name="daysOut"
+              className="radio mx-2"
+            />
+            <label for="daysOutChoice5">5</label>
+
+            <input
+              type="radio"
+              id="daysOutChoice6"
+              name="daysOut"
+              className="radio mx-2"
+            />
+            <label for="daysOutChoice6">6</label>
+
+            <input
+              type="radio"
+              id="daysOutChoice7"
+              name="daysOut"
+              className="radio mx-2"
+            />
+            <label for="daysOutChoice7">7</label>
+          </div>
+
+          <h5>Alert Threshold: x-days snow forecast</h5>
+          {/* add logic to insert radio btn selection value into above text variable */}
+          <div className="w-full max-w-xs m-4">
+            <input
+              type="range"
+              min={0}
+              max="100"
+              value="0"
+              className="range"
+              step="11.11"
+            />
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+            </div>
+            <div className="flex justify-between px-2.5 mt-2 text-xs">
+              <span>1"</span>
+              <span>2"</span>
+              <span>3"</span>
+              <span>4"</span>
+              <span>5"</span>
+              <span>6"</span>
+              <span>1'</span>
+              <span>1.5'</span>
+              <span>2' </span>
+              <span>🤿</span>
+            </div>
+          </div>
+        </div>
       </section>
     </>
   );
