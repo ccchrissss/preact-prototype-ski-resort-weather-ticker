@@ -63,8 +63,8 @@ function SkiResortsPerState({ resortObj }) {
 
   return (
     <>
-      <ul className="list bg-base-100 rounded-box shadow-md">
-        <li className="p-4 pb-2 text-xs opacity-60 tracking-wide">
+      <ul className="list bg-base-100 rounded-box shadow-md mb-4">
+        <li className="p-4 pb-2 text-xs opacity-60 tracking-wide font-semibold">
           {resortObj.stateName}
         </li>
         {newListItems}
@@ -136,8 +136,8 @@ export function DeviceInfo(props) {
     <>
       <section class="m-4 mt-8">
         <div class="mb-8">
-          <h4 class="font-bold">Your Device</h4>
-          <div className="collapse collapse-arrow bg-base-100 border border-base-300">
+          <h4 class="font-bold mb-4">Your Device</h4>
+          <div className="collapse collapse-arrow bg-base-100 border border-base-300 mb-4">
             <input id="collapse-1-toggle" type="checkbox" className="peer" />
             <label
               htmlFor="collapse-1-toggle"
@@ -162,16 +162,19 @@ export function DeviceInfo(props) {
         </div>
 
         <div class="mb-8">
-          <h4 class="font-bold">Choose Your Ski Resorts</h4>
+          <h4 class="font-bold mb-4">Choose Your Ski Resorts</h4>
           <SkiResortsPerState resortObj={colorado} />
           <SkiResortsPerState resortObj={california} />
           <SkiResortsPerState resortObj={pa} />
         </div>
 
         <div class="mb-8">
-          <h4 class="font-bold">Adjust Your Powder Tracker Settings</h4>
+          <h4 class="font-bold mb-4">Adjust Your Powder Tracker Settings</h4>
           {/* <input type="range" min={0} max="100" value="40" className="range m-4" /> */}
-          <h5>Alert Threshold - Snowfall accumulation in the past 24 hrs</h5>
+          <h5>
+            <span className="font-semibold">Alert Threshold 1 - </span>Snowfall
+            accumulation in the past 24 hrs
+          </h5>
           <div className="w-full max-w-xs m-4">
             <input
               type="range"
@@ -207,7 +210,10 @@ export function DeviceInfo(props) {
             </div>
           </div>
 
-          <h5>Alert Threshold - Forecasted snowfall accumulation in the next 24 hrs</h5>
+          <h5>
+            <span className="font-semibold">Alert Threshold 2 - </span>
+            Forecasted snowfall accumulation in the next 24 hrs
+          </h5>
           <div className="w-full max-w-xs m-4">
             <input
               type="range"
@@ -251,7 +257,7 @@ export function DeviceInfo(props) {
             {/* add state logic here to only show below when toggle is on */}
           </div>
 
-          <h5>Up to how many days in the future?</h5>
+          <h5>How many days into the future?</h5>
           <div className="w-full max-w-xs m-4">
             <input
               type="radio"
@@ -303,7 +309,10 @@ export function DeviceInfo(props) {
             <label for="daysOutChoice7">7</label>
           </div>
 
-          <h5>Alert Threshold: x-days snow forecast</h5>
+          <h5>
+            <span className="font-semibold">Alert Threshold 3 - </span>x-days
+            snow forecast
+          </h5>
           {/* add logic to insert radio btn selection value into above text variable */}
           <div className="w-full max-w-xs m-4">
             <input
