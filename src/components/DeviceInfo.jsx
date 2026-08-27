@@ -1,4 +1,5 @@
 import "../style.css"
+import { useState } from 'preact/hooks'
 
 // let colorado = {
 //   stateName: 'Colorado',
@@ -51,7 +52,7 @@ function SkiResortsPerState({ resortObj }) {
         </div>
 
         <button>
-          <input type="checkbox" checked="checked" class="checkbox" />
+          <input type="checkbox" checked={skiResort.checked} class="checkbox" />
         </button>
       </li>
     ),
@@ -75,21 +76,33 @@ function SkiResortsPerState({ resortObj }) {
 
 export function DeviceInfo(props) {
 
+  const [gizmoName, setGizmoName] = useState('My_Custom_Name')
+
   const colorado = {
     stateName: "Colorado",
-    resorts: [{
+    isItChecked: true,
+    resorts: [
+      {
         id: 0,
-        name: "Vail"
-      }, {
+        name: "Vail",
+        checked: true,
+      },
+      {
         id: 1,
-        name: "A Basin"
-      }, {
+        name: "A Basin",
+        checked: false,
+      },
+      {
         id: 2,
-        name: "Breckenridge"
-      }, {
+        name: "Breckenridge",
+        checked: true,
+      },
+      {
         id: 3,
-        name: "Keystone"
-    }]
+        name: "Keystone",
+        checked: true,
+      },
+    ],
   };
 
   const california = {
@@ -98,14 +111,17 @@ export function DeviceInfo(props) {
       {
         id: 0,
         name: "Mammoth",
+        checked: true,
       },
       {
         id: 1,
         name: "Tahoe",
+        checked: false,
       },
       {
         id: 2,
         name: "Heavenly",
+        checked: false,
       },
     ],
   };
@@ -116,27 +132,35 @@ export function DeviceInfo(props) {
       {
         id: 0,
         name: "Bear Creek",
+        checked: true,
       },
       {
         id: 1,
         name: "Big Boulder",
+        checked: false,
       },
       {
         id: 2,
         name: "Camelback",
+        checked: false,
       },
       {
         id: 3,
         name: "Blue Mountain",
+        checked: false,
       },
     ],
   };
+
+  function handleGizmoNameChange(e) {
+    setGizmoName(e.target.value)
+  }
 
   return (
     <>
       <section class="m-4 mt-8">
         <div class="mb-8">
-          <h4 class="font-bold mb-4">Your Device</h4>
+          <h4 class="font-bold mb-4">Your Device - {gizmoName}</h4>
           <div className="collapse collapse-arrow bg-base-100 border border-base-300 mb-4">
             <input id="collapse-1-toggle" type="checkbox" className="peer" />
             <label
@@ -144,7 +168,10 @@ export function DeviceInfo(props) {
               className="fixed inset-0 hidden peer-checked:block"
             ></label>
             <div className="collapse-title font-semibold">Name your gizmo</div>
-            <div className="collapse-content text-sm z-1">*My_custom_name</div>
+            <input
+              onChange={handleGizmoNameChange} value={gizmoName}
+              className="collapse-content text-sm italic z-1 border border-base-300"
+            />
           </div>
           <div className="collapse collapse-arrow bg-base-100 border border-base-300">
             <input id="collapse-1-toggle" type="checkbox" className="peer" />
@@ -162,7 +189,7 @@ export function DeviceInfo(props) {
         </div>
 
         <div class="mb-8">
-          <h4 class="font-bold mb-4">Choose Your Ski Resorts</h4>
+          <h4 class="font-bold mb-4">Choose Your Ski Resorts <span className="font-normal italic">*up to 5</span></h4>
           <SkiResortsPerState resortObj={colorado} />
           <SkiResortsPerState resortObj={california} />
           <SkiResortsPerState resortObj={pa} />
@@ -214,7 +241,7 @@ export function DeviceInfo(props) {
             <span className="font-semibold">Alert Threshold 2 - </span>
             Forecasted snowfall accumulation in the next 24 hrs
           </h5>
-          <div className="w-full max-w-xs m-4">
+          <div className="w-full max-w-xs m-4 mb-8">
             <input
               type="range"
               min={0}
@@ -353,6 +380,12 @@ export function DeviceInfo(props) {
     </>
   );
 }
+
+
+
+
+
+
 
 
 
