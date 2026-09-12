@@ -1,18 +1,90 @@
 import "../style.css"
 import { useState } from 'preact/hooks'
 
-// let colorado = {
-//   stateName: 'Colorado',
-//   resorts: ['vail', 'breckenridge', 'keystone']
-// }
+const coloradoSkiResorts = [
+  { id: 0, name: "Vail", checked: true },
+  { id: 1, name: "A Basin", checked: false },
+  { id: 2, name: "Breckenridge", checked: true },
+  { id: 3, name: "Keystone", checked: true },
+];
 
-function SkiResortsPerState({ resortObj }) {
-  
+const colorado = {
+  stateName: "Colorado",
+  resorts: [
+    {
+      id: 0,
+      name: "Vail",
+      checked: true,
+    },
+    {
+      id: 1,
+      name: "A Basin",
+      checked: false,
+    },
+    {
+      id: 2,
+      name: "Breckenridge",
+      checked: true,
+    },
+    {
+      id: 3,
+      name: "Keystone",
+      checked: true,
+    },
+  ],
+};
 
+const california = {
+  stateName: "California",
+  resorts: [
+    {
+      id: 0,
+      name: "Mammoth",
+      checked: true,
+    },
+    {
+      id: 1,
+      name: "Tahoe",
+      checked: false,
+    },
+    {
+      id: 2,
+      name: "Heavenly",
+      checked: false,
+    },
+  ],
+};
 
-  const newListItems = resortObj.resorts.map(
-    (skiResort) => (
-      <li className="list-row">
+const pa = {
+  stateName: "Pennsylvania",
+  resorts: [
+    {
+      id: 0,
+      name: "Bear Creek",
+      checked: true,
+    },
+    {
+      id: 1,
+      name: "Big Boulder",
+      checked: false,
+    },
+    {
+      id: 2,
+      name: "Camelback",
+      checked: false,
+    },
+    {
+      id: 3,
+      name: "Blue Mountain",
+      checked: false,
+    },
+  ],
+};
+
+// child component
+function Checkbox ({ skiResort, isChecked, label, checkHandler }) {
+  return (
+    <li key={skiResort.id} className="list-row">
         <div>
           {/* <img
             className="size-10 rounded-box"
@@ -22,16 +94,18 @@ function SkiResortsPerState({ resortObj }) {
           <img
             className="size-10 rounded-box"
             alt="Tailwind CSS list item"
-            src={`src/assets/alphabet-icons/letter-${skiResort.name.charAt(0)}-svgrepo-com.svg`}
+            // src={`src/assets/alphabet-icons/letter-${skiResort.name.charAt(0)}-svgrepo-com.svg`}
           />
         </div>
         <div>
-          <div>{skiResort.name}</div>
+          <div>{label}</div>
+        <p>this is key for the individual ski resort {skiResort.id} {isChecked}</p>
           <div className="text-xs uppercase font-semibold opacity-60">
             {/* add some subtitle info here */}
           </div>
         </div>
         <div class="tooltip" data-tip="add to your faves">
+          {/* <button onClick={clickTheHeart(skiResort.id)} className="btn btn-square btn-ghost"> */}
           <button className="btn btn-square btn-ghost">
             <svg
               className="size-[1.2em]"
@@ -51,111 +125,182 @@ function SkiResortsPerState({ resortObj }) {
           </button>
         </div>
 
-        <button>
-          <input type="checkbox" checked={skiResort.checked} class="checkbox" />
+        {/* <input
+          type="text"
+          value={data}
+          onChange={(e) => setData(e.target.value)}
+        /> */}
+        <button className="btn">
+          {/* Send Data to Parent */}
+          {/* the data[0].isChecked probably needs to search the data array for an object with the property of "key" with a value of skiResort.id, and then use the provide the value of the property "isChecked" */}
+          <input
+            type="checkbox"
+            // id={`checkbox-${skiResort.id}`}
+            // checked={data[0].isChecked}
+            checked={isChecked}
+            onChange={checkHandler}
+            className="checkbox"
+            // onChange={(e) => setData(e.target.checked)}
+          />
         </button>
-      </li>
-    ),
+
+        {/* add state to checkbox property in ski resorts obj resorts. Taht way when user checks or unchecks the box it will update the object which will be sent back to the esp32. */}
+        {/* this is the og button */}
+        {/* <button
+          onClick={() => console.log(`${skiResort.name} checkbox clicked.`)}
+        >
+          <input type="checkbox" checked={skiResort.checked} class="checkbox" />
+        </button> */}
+    </li>
+  )
+}
+
+// *****
+// parent component
+function SkiResortsPerState({ initialStateName, sendDataToParent }) {
+
+  const [skiResorts, setSkiResorts] = useState(initialStateName)
+
+  function updateCheckStatus(id) {
+    // if (skiResorts.resorts) {
+    setSkiResorts((s) => ({
+      ...s,
+      // resorts: ['hey', 'what up']
+      resorts: s.resorts.map((resort) =>
+        resort.id === id ? { ...resort, checked: !resort.checked } : resort,
+      ),
+    }));
+  }
+
+  // console.log(data)
+  // console.log(data[0])
+  // console.log(data[0].id)
+  // console.log(data[0].isChecked)
+
+  // function handleClick() {
+  //   sendDataToParent(data)
+  // }
+
+  // const newListItems = resortObj.resorts.map(
+    // (skiResort) => (
+    //   <li key={skiResort.id} className="list-row">
+    //     <div>
+    //       {/* <img
+    //         className="size-10 rounded-box"
+    //         alt="Tailwind CSS list item"
+    //         src="https://img.daisyui.com/images/profile/demo/1@94.webp"
+    //       /> */}
+    //       <img
+    //         className="size-10 rounded-box"
+    //         alt="Tailwind CSS list item"
+    //         src={`src/assets/alphabet-icons/letter-${skiResort.name.charAt(0)}-svgrepo-com.svg`}
+    //       />
+    //     </div>
+    //     <div>
+    //       <div>{skiResort.name}</div>
+    //       <div className="text-xs uppercase font-semibold opacity-60">
+    //         {/* add some subtitle info here */}
+    //       </div>
+    //     </div>
+    //     <div class="tooltip" data-tip="add to your faves">
+    //       {/* <button onClick={clickTheHeart(skiResort.id)} className="btn btn-square btn-ghost"> */}
+    //       <button onClick={testClick} className="btn btn-square btn-ghost">
+    //         <svg
+    //           className="size-[1.2em]"
+    //           xmlns="http://www.w3.org/2000/svg"
+    //           viewBox="0 0 24 24"
+    //         >
+    //           <g
+    //             strokeLinejoin="round"
+    //             strokeLinecap="round"
+    //             strokeWidth="2"
+    //             fill="none"
+    //             stroke="currentColor"
+    //           >
+    //             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+    //           </g>
+    //         </svg>
+    //       </button>
+    //     </div>
+
+    //     {/* <input
+    //       type="text"
+    //       value={data}
+    //       onChange={(e) => setData(e.target.value)}
+    //     /> */}
+    //     <button className="btn" onClick={handleClick}>
+    //       {/* Send Data to Parent */}
+    //       {/* the data[0].isChecked probably needs to search the data array for an object with the property of "key" with a value of skiResort.id, and then use the provide the value of the property "isChecked" */}
+    //       <input
+    //         type="checkbox"
+    //         id={`checkbox-${skiResort.id}`}
+    //         // checked={data[0].isChecked}
+    //         checked={isChecked}
+    //         onChange={checkHandler}
+    //         className="checkbox"
+    //         // onChange={(e) => setData(e.target.checked)}
+    //       />
+    //     </button>
+
+    //     {/* add state to checkbox property in ski resorts obj resorts. Taht way when user checks or unchecks the box it will update the object which will be sent back to the esp32. */}
+    //     {/* this is the og button */}
+    //     {/* <button
+    //       onClick={() => console.log(`${skiResort.name} checkbox clicked.`)}
+    //     >
+    //       <input type="checkbox" checked={skiResort.checked} class="checkbox" />
+    //     </button> */}
+    //   </li>
+    // ),
     // this one def works
     // (skiResortNombre) => <li>{skiResortNombre}</li>
     // this one also works too
     // <SkiResortsPerState resortName={resortName} />
-  );
+  // );
 
   return (
     <>
       <ul className="list bg-base-100 rounded-box shadow-md mb-4">
         <li className="p-4 pb-2 text-xs opacity-60 tracking-wide font-semibold">
-          {resortObj.stateName}
+          {skiResorts.stateName}
         </li>
-        {newListItems}
+        {/* {newListItems} */}
+        {skiResorts.resorts.map((resort) => (
+          <Checkbox
+            skiResort={resort}
+            isChecked={resort.checked}
+            checkHandler={() => updateCheckStatus(resort.id)}
+          />
+        ))}
+        <p>Here's the current skiResorts state:</p>
+        <pre>{JSON.stringify(skiResorts, null, 2)}</pre>
       </ul>
     </>
   );
 }
 
+// *****
+// big daddy parent component
 export function DeviceInfo(props) {
 
   const [gizmoName, setGizmoName] = useState('My_Custom_Name')
+  const [dataFromChild, setDataFromChild] = useState([])
+  // const [skiResorts, setSkiResorts] = useState(coloradoSkiResorts) 
 
-  const colorado = {
-    stateName: "Colorado",
-    isItChecked: true,
-    resorts: [
-      {
-        id: 0,
-        name: "Vail",
-        checked: true,
-      },
-      {
-        id: 1,
-        name: "A Basin",
-        checked: false,
-      },
-      {
-        id: 2,
-        name: "Breckenridge",
-        checked: true,
-      },
-      {
-        id: 3,
-        name: "Keystone",
-        checked: true,
-      },
-    ],
-  };
+  // function updateCheckStatus(id) {
+  //   setSkiResorts(
+  //     skiResorts.map( resort =>
+  //       resort.id === id
+  //         ? { ...resort, checked: !resort.checked }
+  //         : resort
+  //     )
+  //   )
+  // }
 
-  const california = {
-    stateName: "California",
-    resorts: [
-      {
-        id: 0,
-        name: "Mammoth",
-        checked: true,
-      },
-      {
-        id: 1,
-        name: "Tahoe",
-        checked: false,
-      },
-      {
-        id: 2,
-        name: "Heavenly",
-        checked: false,
-      },
-    ],
-  };
-
-  const pa = {
-    stateName: "Pennsylvania",
-    resorts: [
-      {
-        id: 0,
-        name: "Bear Creek",
-        checked: true,
-      },
-      {
-        id: 1,
-        name: "Big Boulder",
-        checked: false,
-      },
-      {
-        id: 2,
-        name: "Camelback",
-        checked: false,
-      },
-      {
-        id: 3,
-        name: "Blue Mountain",
-        checked: false,
-      },
-    ],
-  };
-
-  function handleGizmoNameChange(e) {
-    setGizmoName(e.target.value)
+  function handleDataFromChild(data) {
+    setDataFromChild(data[0].id)
   }
 
+  
   return (
     <>
       <section class="m-4 mt-8">
@@ -169,7 +314,7 @@ export function DeviceInfo(props) {
             ></label>
             <div className="collapse-title font-semibold">Name your gizmo</div>
             <input
-              onChange={handleGizmoNameChange} value={gizmoName}
+              // onChange={handleGizmoNameChange} value={gizmoName}
               className="collapse-content text-sm italic z-1 border border-base-300"
             />
           </div>
@@ -180,7 +325,7 @@ export function DeviceInfo(props) {
               className="fixed inset-0 hidden peer-checked:block"
             ></label>
             <div className="collapse-title font-semibold">
-              The Boring ID I assigned to your gizmo
+              The boring ID I assigned to your gizmo
             </div>
             <div className="collapse-content text-sm z-1">
               ID: {props.deviceID}
@@ -189,10 +334,11 @@ export function DeviceInfo(props) {
         </div>
 
         <div class="mb-8">
+          <h2>Data from child: {dataFromChild[0]}</h2>
           <h4 class="font-bold mb-4">Choose Your Ski Resorts <span className="font-normal italic">*up to 5</span></h4>
-          <SkiResortsPerState resortObj={colorado} />
-          <SkiResortsPerState resortObj={california} />
-          <SkiResortsPerState resortObj={pa} />
+          <SkiResortsPerState initialStateName={colorado} sendDataToParent={handleDataFromChild} />
+          {/* <SkiResortsPerState resortObj={california} /> */}
+          {/* <SkiResortsPerState resortObj={pa} /> */}
         </div>
 
         <div class="mb-8">
