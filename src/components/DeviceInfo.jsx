@@ -8,7 +8,7 @@ const coloradoSkiResorts = [
   { id: 3, name: "Keystone", checked: true },
 ];
 
-const colorado = {
+const coloradoInitial = {
   stateName: "Colorado",
   resorts: [
     {
@@ -34,7 +34,7 @@ const colorado = {
   ],
 };
 
-const california = {
+const californiaInitial = {
   stateName: "California",
   resorts: [
     {
@@ -55,7 +55,7 @@ const california = {
   ],
 };
 
-const pa = {
+const paInitial = {
   stateName: "Pennsylvania",
   resorts: [
     {
@@ -81,8 +81,28 @@ const pa = {
   ],
 };
 
+const powderTrackerPrefsInitial = {
+  alerts: [
+    {
+      name: "Alert Threshold 1",
+      snowAccumValue: "6",
+    },
+    {
+      name: "Alert Threshold 2",
+      snowAccumValue: "12"
+    },
+    {
+      name: "Alert Threshold 3",
+      isActive: true,
+      daysIntoFuture: 3,
+      snowAccumValue: 1
+    }
+  ],
+};
+
+
 // child component
-function Checkbox ({ skiResort, isChecked, label, checkHandler }) {
+function Checkbox ({ skiResort, isChecked, checkHandler }) {
   return (
     <li key={skiResort.id} className="list-row">
         <div>
@@ -94,12 +114,11 @@ function Checkbox ({ skiResort, isChecked, label, checkHandler }) {
           <img
             className="size-10 rounded-box"
             alt="Tailwind CSS list item"
-            // src={`src/assets/alphabet-icons/letter-${skiResort.name.charAt(0)}-svgrepo-com.svg`}
+            src={`src/assets/alphabet-icons/letter-${skiResort.name.charAt(0)}-svgrepo-com.svg`}
           />
         </div>
         <div>
-          <div>{label}</div>
-        <p>this is key for the individual ski resort {skiResort.id} {isChecked}</p>
+        <p>{skiResort.name}</p>
           <div className="text-xs uppercase font-semibold opacity-60">
             {/* add some subtitle info here */}
           </div>
@@ -157,7 +176,7 @@ function Checkbox ({ skiResort, isChecked, label, checkHandler }) {
 
 // *****
 // parent component
-function SkiResortsPerState({ initialStateName, sendDataToParent }) {
+function SkiResortsPerState({ initialStateName }) {
 
   const [skiResorts, setSkiResorts] = useState(initialStateName)
 
@@ -283,7 +302,8 @@ function SkiResortsPerState({ initialStateName, sendDataToParent }) {
 export function DeviceInfo(props) {
 
   const [gizmoName, setGizmoName] = useState('My_Custom_Name')
-  const [dataFromChild, setDataFromChild] = useState([])
+  const [powderAlertPrefs, setPowderAlertPrefs] = useState(powderTrackerPrefsInitial)
+  // const [dataFromChild, setDataFromChild] = useState([])
   // const [skiResorts, setSkiResorts] = useState(coloradoSkiResorts) 
 
   // function updateCheckStatus(id) {
@@ -296,9 +316,9 @@ export function DeviceInfo(props) {
   //   )
   // }
 
-  function handleDataFromChild(data) {
-    setDataFromChild(data[0].id)
-  }
+  // function handleDataFromChild(data) {
+  //   setDataFromChild(data[0].id)
+  // }
 
   
   return (
@@ -334,11 +354,14 @@ export function DeviceInfo(props) {
         </div>
 
         <div class="mb-8">
-          <h2>Data from child: {dataFromChild[0]}</h2>
-          <h4 class="font-bold mb-4">Choose Your Ski Resorts <span className="font-normal italic">*up to 5</span></h4>
-          <SkiResortsPerState initialStateName={colorado} sendDataToParent={handleDataFromChild} />
-          {/* <SkiResortsPerState resortObj={california} /> */}
-          {/* <SkiResortsPerState resortObj={pa} /> */}
+          {/* <h2>Data from child: {dataFromChild[0]}</h2> */}
+          <h4 class="font-bold mb-4">
+            Choose Your Ski Resorts{" "}
+            <span className="font-normal italic">*up to 5</span>
+          </h4>
+          <SkiResortsPerState initialStateName={coloradoInitial} />
+          <SkiResortsPerState initialStateName={californiaInitial} />
+          <SkiResortsPerState initialStateName={paInitial} />
         </div>
 
         <div class="mb-8">
@@ -349,6 +372,8 @@ export function DeviceInfo(props) {
             accumulation in the past 24 hrs
           </h5>
           <div className="w-full max-w-xs m-4">
+            <p>{}</p>
+            <pre>{JSON.stringify(powderAlertPrefs, null, 2)}</pre>
             <input
               type="range"
               min={0}
