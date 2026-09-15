@@ -84,14 +84,17 @@ const paInitial = {
 const powderTrackerPrefsInitial = {
   alerts: [
     {
+      id: 0,
       name: "Alert Threshold 1",
-      snowAccumValue: "6",
+      snowAccumValue: 6
     },
     {
+      id: 1,
       name: "Alert Threshold 2",
-      snowAccumValue: "12"
+      snowAccumValue: 12
     },
     {
+      id: 2,
       name: "Alert Threshold 3",
       isActive: true,
       daysIntoFuture: 3,
@@ -172,6 +175,24 @@ function Checkbox ({ skiResort, isChecked, checkHandler }) {
         </button> */}
     </li>
   )
+}
+
+// *****
+// test child component
+function Slider({ }) {
+
+  return (
+    <input
+      type="range"
+      min={0}
+      max="100"
+      value="0"
+      className="range"
+      step="11.11"
+      onChange={() => console.log("iSlide")}
+    />
+  )
+  
 }
 
 // *****
@@ -304,17 +325,46 @@ export function DeviceInfo(props) {
   const [gizmoName, setGizmoName] = useState('My_Custom_Name')
   const [powderAlertPrefs, setPowderAlertPrefs] = useState(powderTrackerPrefsInitial)
   // const [dataFromChild, setDataFromChild] = useState([])
-  // const [skiResorts, setSkiResorts] = useState(coloradoSkiResorts) 
+  // const [skiResorts, setSkiResorts] = useState(coloradoSkiResorts)
 
-  // function updateCheckStatus(id) {
-  //   setSkiResorts(
-  //     skiResorts.map( resort =>
-  //       resort.id === id
-  //         ? { ...resort, checked: !resort.checked }
-  //         : resort
-  //     )
-  //   )
-  // }
+  const rangeSliderCorrespondingValues = {
+    // the unit for the integers (except 0) is inches. The decimals are the values for the input range slider
+    0: 1,
+    11.11: 2,
+    22.22: 3,
+    33.33: 4,
+    44.44: 5,
+    55.55: 6,
+    66.66: 12,
+    77.77: 16,
+    88.88: 24,
+    99.99: 36,
+    1: 0,
+    2: 11.11,
+    3: 22.22,
+    4: 33.33,
+    5: 44.44,
+    6: 55.55,
+    12: 66.66,
+    16: 77.77,
+    24: 88.88,
+    36: 99.99,
+  };
+  // console.log(rangeSliderCorrespondingValues[2])
+
+  function updatePowderTracker(id, selectedRangeValue) {
+
+    console.log(selectedRangeValue)
+
+      // if (skiResorts.resorts) {
+      setPowderAlertPrefs((s) => ({
+        ...s,
+        alerts: s.alerts.map((alertThreshold) =>
+          alertThreshold.id === id ? {...alertThreshold, snowAccumValue: rangeSliderCorrespondingValues[selectedRangeValue]} : alertThreshold,
+        ),
+      }));
+  }
+  
 
   // function handleDataFromChild(data) {
   //   setDataFromChild(data[0].id)
@@ -366,6 +416,7 @@ export function DeviceInfo(props) {
 
         <div class="mb-8">
           <h4 class="font-bold mb-4">Adjust Your Powder Tracker Settings</h4>
+          <Slider />
           {/* <input type="range" min={0} max="100" value="40" className="range m-4" /> */}
           <h5>
             <span className="font-semibold">Alert Threshold 1 - </span>Snowfall
@@ -378,9 +429,16 @@ export function DeviceInfo(props) {
               type="range"
               min={0}
               max="100"
-              value="0"
+              // value={
+              //   rangeSliderCorrespondingValues[
+              //     powderAlertPrefs.alerts[0].snowAccumValue
+              //   ]
+              // }
+
               className="range"
               step="11.11"
+              onInput={(e) => updatePowderTracker(0, e.target.value)}
+              // onInput={e => console.log(e.target.value)}
             />
             <div className="flex justify-between px-2.5 mt-2 text-xs">
               <span>|</span>
