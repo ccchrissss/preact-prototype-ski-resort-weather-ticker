@@ -1,6 +1,7 @@
 import "../style.css"
 import { useState } from 'preact/hooks'
 
+
 const coloradoSkiResorts = [
   { id: 0, name: "Vail", checked: true },
   { id: 1, name: "A Basin", checked: false },
@@ -86,20 +87,27 @@ const powderTrackerPrefsInitial = {
     {
       id: 0,
       name: "Alert Threshold 1",
-      snowAccumValue: 6
+      snowAccumValue: 6,
+      snowAccumUnit: "inches",
+      daysIntoFuture: null,
+      isActive: null,
     },
     {
       id: 1,
       name: "Alert Threshold 2",
-      snowAccumValue: 12
+      snowAccumValue: 12,
+      snowAccumUnit: "inches",
+      daysIntoFuture: null,
+      isActive: null,
     },
     {
       id: 2,
       name: "Alert Threshold 3",
-      isActive: true,
-      daysIntoFuture: 3,
-      snowAccumValue: 1
-    }
+      snowAccumValue: 1,
+      snowAccumUnit: "inches",
+      daysIntoFuture: 2,
+      isActive: false,
+    },
   ],
 };
 
@@ -189,7 +197,7 @@ function Slider({ }) {
       value="0"
       className="range"
       step="11.11"
-      onChange={() => console.log("iSlide")}
+      onChange={() => console.log("iSlide")}  
     />
   )
   
@@ -311,8 +319,8 @@ function SkiResortsPerState({ initialStateName }) {
             checkHandler={() => updateCheckStatus(resort.id)}
           />
         ))}
-        <p>Here's the current skiResorts state:</p>
-        <pre>{JSON.stringify(skiResorts, null, 2)}</pre>
+        {/* <p>Here's the current skiResorts state:</p>
+        <pre>{JSON.stringify(skiResorts, null, 2)}</pre> */}
       </ul>
     </>
   );
@@ -336,7 +344,7 @@ export function DeviceInfo(props) {
     44.44: 5,
     55.55: 6,
     66.66: 12,
-    77.77: 16,
+    77.77: 18,
     88.88: 24,
     99.99: 36,
     1: 0,
@@ -346,24 +354,100 @@ export function DeviceInfo(props) {
     5: 44.44,
     6: 55.55,
     12: 66.66,
-    16: 77.77,
+    18: 77.77,
     24: 88.88,
     36: 99.99,
   };
-  // console.log(rangeSliderCorrespondingValues[2])
 
-  function updatePowderTracker(id, selectedRangeValue) {
+  function updatePowderTracker(
+    id,
+    additionalAlertChangeType,
+    selectedDaysIntoFuture,
+    selectedPowderDepth,
+  ) {
+    // console.log(selectedRangeValue)
 
-    console.log(selectedRangeValue)
+    // let sampleObj = {
+    //   id: 2,
+    //   name: "Alert Threshold 3",
+    //   isActive: true,
+    //   daysIntoFuture: 3,
+    //   snowAccumValue: 1,
+    //   snowAccumUnit: "inches",
+    // };
 
-      // if (skiResorts.resorts) {
+    if (id === 2) {
+      // console.log('id is 2, gue')
+
+      if (additionalAlertChangeType === "toggle") {
+        // console.log('addl alert tawggle')
+
+        setPowderAlertPrefs((s) => ({
+          ...s,
+
+          alerts: s.alerts.map((alertThreshold) =>
+            alertThreshold.id === id
+              ? {
+                  ...alertThreshold,
+                  isActive: !alertThreshold.isActive,
+                }
+              : alertThreshold,
+          ),
+        }));
+      } else if (additionalAlertChangeType === "radio") {
+        // console.log('addl alert raydio')
+
+        setPowderAlertPrefs((s) => ({
+          ...s,
+          // alerts: s.alerts.map((alertThreshold) =>
+          //   alertThreshold.id === id ? {...alertThreshold, snowAccumValue: rangeSliderCorrespondingValues[selectedRangeValue]} : alertThreshold,
+          // ),
+          alerts: s.alerts.map((alertThreshold) =>
+            alertThreshold.id === id
+              ? {
+                  ...alertThreshold,
+                  daysIntoFuture: selectedDaysIntoFuture,
+                }
+              : alertThreshold,
+          ),
+        }));
+      } else if (additionalAlertChangeType === "range") {
+        // console.log("addl alert raynge");
+
+        setPowderAlertPrefs((s) => ({
+          ...s,
+          // alerts: s.alerts.map((alertThreshold) =>
+          //   alertThreshold.id === id ? {...alertThreshold, snowAccumValue: rangeSliderCorrespondingValues[selectedRangeValue]} : alertThreshold,
+          // ),
+          alerts: s.alerts.map((alertThreshold) =>
+            alertThreshold.id === id
+              ? {
+                  ...alertThreshold,
+                  snowAccumValue:
+                    rangeSliderCorrespondingValues[selectedPowderDepth],
+                }
+              : alertThreshold,
+          ),
+        }));
+      }
+    } else {
       setPowderAlertPrefs((s) => ({
         ...s,
+        // alerts: s.alerts.map((alertThreshold) =>
+        //   alertThreshold.id === id ? {...alertThreshold, snowAccumValue: rangeSliderCorrespondingValues[selectedRangeValue]} : alertThreshold,
+        // ),
         alerts: s.alerts.map((alertThreshold) =>
-          alertThreshold.id === id ? {...alertThreshold, snowAccumValue: rangeSliderCorrespondingValues[selectedRangeValue]} : alertThreshold,
+          alertThreshold.id === id
+            ? {
+                ...alertThreshold,
+                snowAccumValue:
+                  rangeSliderCorrespondingValues[selectedPowderDepth],
+              }
+            : alertThreshold,
         ),
       }));
-  }
+    }
+}
   
 
   // function handleDataFromChild(data) {
@@ -416,7 +500,7 @@ export function DeviceInfo(props) {
 
         <div class="mb-8">
           <h4 class="font-bold mb-4">Adjust Your Powder Tracker Settings</h4>
-          <Slider />
+          {/* <Slider /> */}
           {/* <input type="range" min={0} max="100" value="40" className="range m-4" /> */}
           <h5>
             <span className="font-semibold">Alert Threshold 1 - </span>Snowfall
@@ -424,21 +508,22 @@ export function DeviceInfo(props) {
           </h5>
           <div className="w-full max-w-xs m-4">
             <p>{}</p>
-            <pre>{JSON.stringify(powderAlertPrefs, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(powderAlertPrefs, null, 2)}</pre> */}
             <input
               type="range"
               min={0}
               max="100"
-              // value={
-              //   rangeSliderCorrespondingValues[
-              //     powderAlertPrefs.alerts[0].snowAccumValue
-              //   ]
-              // }
-
               className="range"
               step="11.11"
-              onInput={(e) => updatePowderTracker(0, e.target.value)}
-              // onInput={e => console.log(e.target.value)}
+              value={
+                rangeSliderCorrespondingValues[
+                  powderAlertPrefs.alerts.filter((e) => e.id === 0)[0]
+                    .snowAccumValue
+                ]
+              }
+              onInput={(e) =>
+                updatePowderTracker(0, null, null, e.target.value)
+              }
             />
             <div className="flex justify-between px-2.5 mt-2 text-xs">
               <span>|</span>
@@ -473,11 +558,19 @@ export function DeviceInfo(props) {
           <div className="w-full max-w-xs m-4 mb-8">
             <input
               type="range"
-              min={0}
+              min="0"
               max="100"
-              value="0"
               className="range"
               step="11.11"
+              value={
+                rangeSliderCorrespondingValues[
+                  powderAlertPrefs.alerts.filter((e) => e.id === 1)[0]
+                    .snowAccumValue
+                ]
+              }
+              onInput={(e) =>
+                updatePowderTracker(1, null, null, e.target.value)
+              }
             />
             <div className="flex justify-between px-2.5 mt-2 text-xs">
               <span>|</span>
@@ -508,7 +601,11 @@ export function DeviceInfo(props) {
           <h5>Want an additional forecast alert?</h5>
           <div className="m-4">
             <label className="mr-2">No</label>
-            <input type="checkbox" className="toggle" />
+            <input
+              type="checkbox"
+              className="toggle"
+              onChange={() => updatePowderTracker(2, "toggle")}
+            />
             <label className="ml-2">Yes!</label>
             {/* add state logic here to only show below when toggle is on */}
           </div>
@@ -519,8 +616,13 @@ export function DeviceInfo(props) {
               type="radio"
               id="daysOutChoice2"
               name="daysOut"
+              value="2"
               className="radio mr-2"
-              defaultChecked
+              // will need to make the last selected date the one from the data on the gizmo
+              // defaultChecked
+
+              // onClick={(e) => console.log(e.target.value)}
+              onClick={(e) => updatePowderTracker(2, "radio", +e.target.value)}
             />
             <label for="daysOutChoice2">2</label>
 
@@ -528,7 +630,10 @@ export function DeviceInfo(props) {
               type="radio"
               id="daysOutChoice3"
               name="daysOut"
+              value="3"
               className="radio mx-2"
+              // onClick={(e) => console.log(+e.target.value)}
+              onClick={(e) => updatePowderTracker(2, "radio", +e.target.value)}
             />
             <label for="daysOutChoice3">3</label>
 
@@ -536,7 +641,10 @@ export function DeviceInfo(props) {
               type="radio"
               id="daysOutChoice4"
               name="daysOut"
+              value="4"
               className="radio mx-2"
+              // onClick={(e) => console.log(+e.target.value)}
+              onClick={(e) => updatePowderTracker(2, "radio", +e.target.value)}
             />
             <label for="daysOutChoice4">4</label>
 
@@ -544,7 +652,9 @@ export function DeviceInfo(props) {
               type="radio"
               id="daysOutChoice5"
               name="daysOut"
+              value="5"
               className="radio mx-2"
+              onClick={(e) => updatePowderTracker(2, "radio", +e.target.value)}
             />
             <label for="daysOutChoice5">5</label>
 
@@ -552,7 +662,9 @@ export function DeviceInfo(props) {
               type="radio"
               id="daysOutChoice6"
               name="daysOut"
+              value="6"
               className="radio mx-2"
+              onClick={(e) => updatePowderTracker(2, "radio", +e.target.value)}
             />
             <label for="daysOutChoice6">6</label>
 
@@ -560,7 +672,9 @@ export function DeviceInfo(props) {
               type="radio"
               id="daysOutChoice7"
               name="daysOut"
+              value="7"
               className="radio mx-2"
+              onClick={(e) => updatePowderTracker(2, "radio", +e.target.value)}
             />
             <label for="daysOutChoice7">7</label>
           </div>
@@ -573,11 +687,19 @@ export function DeviceInfo(props) {
           <div className="w-full max-w-xs m-4">
             <input
               type="range"
-              min={0}
+              min="0"
               max="100"
-              value="0"
               className="range"
               step="11.11"
+              value={
+                rangeSliderCorrespondingValues[
+                  powderAlertPrefs.alerts.filter((e) => e.id === 2)[0]
+                    .snowAccumValue
+                ]
+              }
+              onInput={(e) =>
+                updatePowderTracker(2, "range", null, e.target.value)
+              }
             />
             <div className="flex justify-between px-2.5 mt-2 text-xs">
               <span>|</span>
