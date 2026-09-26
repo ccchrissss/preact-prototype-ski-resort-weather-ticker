@@ -186,24 +186,6 @@ function Checkbox ({ skiResort, isChecked, checkHandler }) {
 }
 
 // *****
-// test child component
-function Slider({ }) {
-
-  return (
-    <input
-      type="range"
-      min={0}
-      max="100"
-      value="0"
-      className="range"
-      step="11.11"
-      onChange={() => console.log("iSlide")}  
-    />
-  )
-  
-}
-
-// *****
 // parent component
 function SkiResortsPerState({ initialStateName }) {
 
@@ -359,6 +341,10 @@ export function DeviceInfo(props) {
     36: 99.99,
   };
 
+  function handleGizmoNameChange(newName) {
+    setGizmoName(newName)
+  }
+
   function updatePowderTracker(
     id,
     additionalAlertChangeType,
@@ -466,9 +452,9 @@ export function DeviceInfo(props) {
               htmlFor="collapse-1-toggle"
               className="fixed inset-0 hidden peer-checked:block"
             ></label>
-            <div className="collapse-title font-semibold">Name your gizmo</div>
+            <div className="collapse-title font-semibold">Change your gizmo's name</div>
             <input
-              // onChange={handleGizmoNameChange} value={gizmoName}
+              onChange={e => handleGizmoNameChange(e.target.value)} value={gizmoName}
               className="collapse-content text-sm italic z-1 border border-base-300"
             />
           </div>
@@ -500,8 +486,6 @@ export function DeviceInfo(props) {
 
         <div class="mb-8">
           <h4 class="font-bold mb-4">Adjust Your Powder Tracker Settings</h4>
-          {/* <Slider /> */}
-          {/* <input type="range" min={0} max="100" value="40" className="range m-4" /> */}
           <h5>
             <span className="font-semibold">Alert Threshold 1 - </span>Snowfall
             accumulation in the past 24 hrs
