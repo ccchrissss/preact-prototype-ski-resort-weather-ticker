@@ -452,9 +452,12 @@ export function DeviceInfo(props) {
               htmlFor="collapse-1-toggle"
               className="fixed inset-0 hidden peer-checked:block"
             ></label>
-            <div className="collapse-title font-semibold">Change your gizmo's name</div>
+            <div className="collapse-title font-semibold">
+              Change your gizmo's name
+            </div>
             <input
-              onChange={e => handleGizmoNameChange(e.target.value)} value={gizmoName}
+              onChange={(e) => handleGizmoNameChange(e.target.value)}
+              value={gizmoName}
               className="collapse-content text-sm italic z-1 border border-base-300"
             />
           </div>
@@ -597,6 +600,7 @@ export function DeviceInfo(props) {
           <h5>How many days into the future?</h5>
           <div className="w-full max-w-xs m-4">
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="radio"
               id="daysOutChoice2"
               name="daysOut"
@@ -611,6 +615,7 @@ export function DeviceInfo(props) {
             <label for="daysOutChoice2">2</label>
 
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="radio"
               id="daysOutChoice3"
               name="daysOut"
@@ -622,6 +627,7 @@ export function DeviceInfo(props) {
             <label for="daysOutChoice3">3</label>
 
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="radio"
               id="daysOutChoice4"
               name="daysOut"
@@ -633,6 +639,7 @@ export function DeviceInfo(props) {
             <label for="daysOutChoice4">4</label>
 
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="radio"
               id="daysOutChoice5"
               name="daysOut"
@@ -643,6 +650,7 @@ export function DeviceInfo(props) {
             <label for="daysOutChoice5">5</label>
 
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="radio"
               id="daysOutChoice6"
               name="daysOut"
@@ -653,6 +661,7 @@ export function DeviceInfo(props) {
             <label for="daysOutChoice6">6</label>
 
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="radio"
               id="daysOutChoice7"
               name="daysOut"
@@ -670,6 +679,7 @@ export function DeviceInfo(props) {
           {/* add logic to insert radio btn selection value into above text variable */}
           <div className="w-full max-w-xs m-4">
             <input
+              disabled={!powderAlertPrefs.alerts[2].isActive}
               type="range"
               min="0"
               max="100"
