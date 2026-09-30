@@ -22,16 +22,16 @@ export function Header() {
           <ul
             tabindex="-1"
             class="menu menu-sm dropdown-content rounded-box z-1 mt-3 w-52 p-2 pt-3 shadow">
-            <li><a class="link link-hover" href="/music">Music</a></li>
-            <li><a class="link link-hover" href="/merch">Merch</a></li>
+            <li><a class="link link-hover" href="/music">Menu Item 1</a></li>
+            <li><a class="link link-hover" href="/merch">Menu Item 2</a></li>
             <li class="flex">
               <a href="https://www.instagram.com/lantz.darling" class="fa fa-instagram link link-hover"></a>
             </li>
           </ul>
         </div>
         <ul class="menu menu-horizontal px-1 hidden lg:flex">
-          <li><a class="link link-hover" href="/music">Music</a></li>
-          <li><a class="link link-hover" href="/merch">Merch</a></li> 
+          <li><a class="link link-hover" href="/music">Menu Item 1</a></li>
+          <li><a class="link link-hover" href="/merch">Menu Item 2</a></li> 
         </ul>
       </div>
     </div>
