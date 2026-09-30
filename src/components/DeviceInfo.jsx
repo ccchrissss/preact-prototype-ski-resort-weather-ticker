@@ -134,8 +134,7 @@ function Checkbox ({ skiResort, isChecked, checkHandler }) {
             {/* add some subtitle info here */}
           </div>
         </div>
-        <div class="tooltip" data-tip="add to your faves">
-          {/* <button onClick={clickTheHeart(skiResort.id)} className="btn btn-square btn-ghost"> */}
+        {/* <div class="tooltip" data-tip="add to your faves">
           <button className="btn btn-square btn-ghost">
             <svg
               className="size-[1.2em]"
@@ -153,7 +152,7 @@ function Checkbox ({ skiResort, isChecked, checkHandler }) {
               </g>
             </svg>
           </button>
-        </div>
+        </div> */}
 
         {/* <input
           type="text"
@@ -404,7 +403,7 @@ export function DeviceInfo(props) {
           ...s,
           // alerts: s.alerts.map((alertThreshold) =>
           //   alertThreshold.id === id ? {...alertThreshold, snowAccumValue: rangeSliderCorrespondingValues[selectedRangeValue]} : alertThreshold,
-          // ),
+          // ), 
           alerts: s.alerts.map((alertThreshold) =>
             alertThreshold.id === id
               ? {
@@ -479,8 +478,8 @@ export function DeviceInfo(props) {
         <div class="mb-8">
           {/* <h2>Data from child: {dataFromChild[0]}</h2> */}
           <h4 class="font-bold mb-4">
-            Choose Your Ski Resorts{" "}
-            <span className="font-normal italic">*up to 5</span>
+            Choose Your Ski Resorts
+            {/* <span className="font-normal italic"> *up to 5</span> */}
           </h4>
           <SkiResortsPerState initialStateName={coloradoInitial} />
           <SkiResortsPerState initialStateName={californiaInitial} />
@@ -673,8 +672,7 @@ export function DeviceInfo(props) {
           </div>
 
           <h5>
-            <span className="font-semibold">Alert Threshold 3 - </span>x-days
-            snow forecast
+            <span className="font-semibold">Alert Threshold 3 - </span>Forecasted snowfall accumulation on any single day in the next {powderAlertPrefs.alerts[2].daysIntoFuture} days
           </h5>
           {/* add logic to insert radio btn selection value into above text variable */}
           <div className="w-full max-w-xs m-4">
